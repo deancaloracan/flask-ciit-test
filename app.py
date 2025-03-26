@@ -5,7 +5,6 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///inventory01.db'
 db = SQLAlchemy(app)
 
-# ✅ Must come after 'app' is created, but before routes
 @app.before_first_request
 def create_tables():
     db.create_all()
