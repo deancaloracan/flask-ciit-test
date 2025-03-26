@@ -5,10 +5,6 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///inventory01.db'
 db = SQLAlchemy(app)
 
-@app.before_first_request
-def create_tables():
-    db.create_all()
-
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -36,6 +32,11 @@ class Item(db.Model):
         if self.fba_days_remaining > 0:
             return self.fba_days_remaining + 45
         return 0
+    
+# 🔸 This will auto-create the DB when the app starts (useful for Render)
+@app.before_first_request
+def create_tables():
+    db.create_all()
 
 @app.route('/')
 def home():
