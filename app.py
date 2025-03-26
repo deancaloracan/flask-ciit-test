@@ -5,6 +5,9 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///inventory01.db'
 db = SQLAlchemy(app)
 
+with app.app_context():
+    db.create_all()
+
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -76,6 +79,4 @@ def remove_product(item_id):
     return redirect(url_for('home'))
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-        app.run(host='0.0.0.0', port=5015, debug=True)
+     app.run(host='0.0.0.0', port=5015, debug=True)
